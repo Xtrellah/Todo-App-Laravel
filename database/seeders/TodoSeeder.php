@@ -14,6 +14,7 @@ class TodoSeeder extends Seeder
         $faker = Faker::create();
         for ($i = 0; $i < 10; $i++) {
             DB::table('todos')->insert([
+                'name' => $faker->word(),
                 'description' => $faker->sentence(),
                 'completed' => $faker->boolean()
             ]);
