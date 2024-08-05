@@ -8,3 +8,4 @@ Route::get('/', function () {
 
 Route::get('/todo', [\App\Http\Controllers\TodoController::class, 'getTodoList']);
 route::get('/todo/{completed}', [\App\Http\Controllers\TodoController::class, 'getTodoBy']);
+route::get('/view', [\App\Http\Controllers\TodoController::class, 'viewList']);

@@ -7,6 +7,13 @@ use App\Models\Todo;
 
 class TodoController extends Controller
 {
+    public function viewList()
+    {
+        $todos = Todo::all();
+
+        return view('TodoList', ['title'=>'To Do List', 'todos'=>$todos]);
+    }
+
     public function getTodoList()
     {
         $list = Todo::all();
