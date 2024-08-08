@@ -31,6 +31,55 @@ class TodoController extends Controller
         return $todos;
     }
 
+    public function add(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|min:1|max:20',
+            'description' => 'required|string|min:1|max:100',
+        ]);
+
+        $todo = new Todo();
+
+        $todo->name = $request->name;
+        $todo->description = $request->description;
+
+        if ($todo->save()) {
+            return response()->json([
+                'message' => 'Todo added',
+                'success' => true
+            ], 201);
+        }
+
+        return response()->json([
+            'message' => 'Something went wrong',
+            'success' => false
+        ], 500);
+    }
+
+    public function delete(int $id)
+    {
+        $todo = Todo::find($id);
+
+        if (!$todo) {
+            return response()->json([
+                'message' => 'Invalid Todo ID',
+                'success' => false
+            ], 400);
+        }
+
+        if ($todo->delete()) {
+            return response()->json([
+                'message' => 'Todo deleted',
+                'success' => true
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Something went wrong',
+            'success' => false
+        ], 500);
+    }
+
     public function updateTodo(int $id, Request $request)
     {
         $todo = Todo::find($id);
@@ -46,7 +95,7 @@ class TodoController extends Controller
 
         if ($todo->save()) {
             return response()->json([
-                'message' => 'Car updated',
+                'message' => 'Todo updated',
                 'success' => true
             ]);
         }

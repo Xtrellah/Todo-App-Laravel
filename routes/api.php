@@ -11,3 +11,6 @@ route::get('/todo', [\App\Http\Controllers\TodoController::class, 'getTodoList']
 route::get('/todo/{completed}', [\App\Http\Controllers\TodoController::class, 'getTodoBy']);
 
 route::put('/todo/update/{id}', [\App\Http\Controllers\TodoController::class, 'updateTodo']);
+Route::post('/todo/add', [\App\Http\Controllers\TodoController::class, 'add']);
+Route::delete('/todo/{id}', [\App\Http\Controllers\TodoController::class, 'delete']);
+
