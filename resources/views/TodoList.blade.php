@@ -9,7 +9,7 @@
             <li class="border">
                 <p class="font-bold">{{$todo->name}}</p>
                 <p>{{$todo->description}}</p>
-                <p>Completed: {{$todo->completed}}</p>
+                <p>{{$todo->completed}}</p>
             </li>
             <br>
         @endforeach

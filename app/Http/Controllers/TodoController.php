@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BoolConverter;
 use Illuminate\Http\Request;
 use App\Models\Todo;
 
@@ -10,6 +11,10 @@ class TodoController extends Controller
     public function viewList()
     {
         $todos = Todo::all();
+
+        foreach ($todos as $todo) {
+            $todo->completed = BoolConverter::StatusConverter($todo->completed);
+        }
 
         return view('TodoList', ['title'=>'To Do List', 'todos'=>$todos]);
     }
