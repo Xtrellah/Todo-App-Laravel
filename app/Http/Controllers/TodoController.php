@@ -12,6 +12,13 @@ class TodoController extends Controller
     {
         $todos = Todo::all();
 
+        return $todos;
+    }
+
+    public function viewTodoList()
+    {
+        $todos = Todo::all();
+
         foreach ($todos as $todo) {
             $todo->completed = BoolConverter::StatusConverter($todo->completed);
         }
@@ -20,6 +27,17 @@ class TodoController extends Controller
     }
 
     public function getTodoBy(int $completed)
+    {
+        if ($completed > 0) {
+            $todos = Todo::where('completed', '>', 0)->get();
+        }
+        else {
+            $todos = Todo::where('completed', 0)->get();
+        }
+        return $todos;
+    }
+
+    public function viewTodoBy(int $completed)
     {
         if ($completed > 0) {
             $todos = Todo::where('completed', '>', 0)->get();
@@ -36,6 +54,13 @@ class TodoController extends Controller
     {
         $todos = Todo::where('folder', '=', $list)->get();
 
+        return $todos;
+    }
+
+    public function viewTodoByList(int $list)
+    {
+        $todos = Todo::where('folder', '=', $list)->get();
+
         return view('TodoList', ['title'=>'To Do List', 'todos'=>$todos]);
     }
 
@@ -44,7 +69,7 @@ class TodoController extends Controller
         $request->validate([
             'name' => 'required|string|min:1|max:20',
             'description' => 'required|string|min:1|max:100',
-            'folder' => 'required|numeric|min:1|max:2'
+            'folder' => 'required|numeric|min:1|max:99'
         ]);
 
         $todo = new Todo();
@@ -101,9 +126,11 @@ class TodoController extends Controller
             ], 400);
         }
 
-        $todo->completed = $request->completed ?? $todo->completed;
-        $todo->folder = $request->folder ?? $todo->folder;
         $todo->name = $request->name ?? $todo->name;
+        $todo->description = $request->description ?? $todo->description;;
+        $todo->completed = $request->completed ?? $todo->completed;;
+        $todo->folder = $request->folder ?? $todo->folder;;
+
 
         if ($todo->save()) {
             return response()->json([
