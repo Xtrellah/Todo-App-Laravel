@@ -8,7 +8,7 @@ use App\Models\Todo;
 
 class TodoController extends Controller
 {
-    public function viewList()
+    public function getTodoList()
     {
         $todos = Todo::all();
 
@@ -19,21 +19,24 @@ class TodoController extends Controller
         return view('TodoList', ['title'=>'To Do List', 'todos'=>$todos]);
     }
 
-    public function getTodoList()
-    {
-        $list = Todo::all();
-        return $list;
-    }
-
     public function getTodoBy(int $completed)
     {
         if ($completed > 0) {
             $todos = Todo::where('completed', '>', 0)->get();
+            $title = "Complete To Do's";
         }
         else {
             $todos = Todo::where('completed', 0)->get();
+            $title = "Incomplete To Do's";
         }
-        return $todos;
+        return view('TodoList', ['title'=>$title, 'todos'=>$todos]);
+    }
+
+    public function getTodoByList(int $list)
+    {
+        $todos = Todo::where('folder', '=', $list)->get();
+
+        return view('TodoList', ['title'=>'To Do List', 'todos'=>$todos]);
     }
 
     public function add(Request $request)
@@ -99,6 +102,8 @@ class TodoController extends Controller
         }
 
         $todo->completed = $request->completed ?? $todo->completed;
+        $todo->folder = $request->folder ?? $todo->folder;
+        $todo->name = $request->name ?? $todo->name;
 
         if ($todo->save()) {
             return response()->json([
