@@ -7,17 +7,14 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
-class TodoSeeder extends Seeder
+class FolderSeeder extends Seeder
 {
     public function run(): void
     {
         $faker = Faker::create();
-        for ($i = 0; $i < 10; $i++) {
-            DB::table('todos')->insert([
-                'name' => $faker->word(),
-                'description' => $faker->sentence(),
-                'completed' => $faker->boolean(),
-                'folder' => 1,
+        for ($i = 0; $i < 5; $i++) {
+            DB::table('folders')->insert([
+                'name' => $faker->word()
             ]);
         }
     }

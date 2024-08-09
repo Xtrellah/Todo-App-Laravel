@@ -41,12 +41,14 @@ class TodoController extends Controller
         $request->validate([
             'name' => 'required|string|min:1|max:20',
             'description' => 'required|string|min:1|max:100',
+            'folder' => 'required|numeric|min:1|max:2'
         ]);
 
         $todo = new Todo();
 
         $todo->name = $request->name;
         $todo->description = $request->description;
+        $todo->folder = $request->folder;
 
         if ($todo->save()) {
             return response()->json([
